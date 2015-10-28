@@ -1,0 +1,3 @@
+Web wrapper written in Python for the Digital Ocean V2 API.
+
+Work in progres ...

@@ -22,3 +22,33 @@ class User(object):
         domains_list = requests.get(domain_url, headers = header).json()
 
         return domains_list
+
+    def get_domain(self, domain):
+        if domain is None:
+            return "Please supply a domain. Ex. example.com"
+        else:
+            domain_url = base_url + 'domains/' + domain + ''
+            domain_info = requests.get(domain_url, headers = header).json()
+            if domain_info.status_code == 200:
+                return domain_info
+            else:
+                return "Unable to find domain information for %s" % domain
+
+    def domain_records(self):
+        records_url = base_url + 'records'
+        records = requests.get(records_url, headers=header).json()
+        if records.status_code == 200:
+            return records
+        else:
+            return "Unable to fetch domain records. Check authorization token"
+
+    def get_domain_record(self, id):
+        if id is None:
+            return "Please supply a domain record id."
+        else:
+            records_url = base_url + 'records/' + id + ''
+            record = requests.get(records_url, headers=header).json()
+            if record.status_code == 200:
+                return records
+            else:
+                return "Unable to find supplied domain record id"

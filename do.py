@@ -21,7 +21,7 @@ class User(object):
         self.token = token
         self._account = '{BASE}/account'.format(BASE=base_url)
         self._domains = '{BASE}/domains/'.format(BASE=base_url)
-        self._droplets = '{BASE}/droplets'.format(BASE=base_url)
+        self._droplets = '{BASE}/droplets/'.format(BASE=base_url)
 
     def account(self):
         token = {'Authorization': 'Bearer ' + self.token + ''}
@@ -63,3 +63,17 @@ class User(object):
         token = {'Authorization': 'Bearer ' + self.token + ''}
         droplet_list = get(self._droplets, header=token)
         return droplet_list
+
+    def get_droplet(self, droplet):
+        if droplet is None:
+            return "Please enter a droplet ID"
+        else:
+            token = {'Authorization': 'Bearer ' + self.token + ''}
+            url = self._droplets + droplet
+            droplet_info = get(url, header=token)
+            return droplet_info
+
+class Droplet(object):
+
+    def __init__(self, token):
+        self.token = token

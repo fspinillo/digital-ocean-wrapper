@@ -111,7 +111,7 @@ class Droplet(object):
         elif action == 'power on':
             payload = {'type': 'power_on'}
 
-        url = self._droplets + droplet_id
+        url = self._droplets + droplet_id + '/actions'
         token = {'Authorization': 'Bearer ' + self.token + ''}
         droplet_action = post(url, header=token, payload=payload)
         return droplet_action
@@ -128,7 +128,28 @@ class Droplet(object):
             snapshot_name = name
             payload = {'type': 'snapshot', 'name': snapshot_name}
 
-        url = self._droplets + droplet_id
+        url = self._droplets + droplet_id + '/actions'
         token = {'Authorization': 'Bearer ' + self.token + ''}
         snapshot_action = post(url, header=token, payload=payload)
         return snapshot_action
+
+    def rename(self, droplet_id=None, name=None):
+        if name is None:
+            return 'Please enter a name'
+        elif droplet_id is None:
+            return 'Please enter a droplet ID'
+
+        url = self._droplets + droplet_id + '/actions'
+        payload = {'type': 'rename', 'name': name}
+        droplet_rename = post(url, header=token, payload=payload)
+        return droplet_rename
+
+
+    def upgrade(self, droplet_id=None):
+        if droplet_id is None:
+            return 'Please enter a droplet ID'
+
+        url = self._droplets + droplet_id + '/actions'
+        payload = {'type': 'upgrade'}
+        droplet_upgrade = post(url, header=token, payload=payload)
+        return droplet_upgrade
